@@ -1,0 +1,32 @@
+{
+  "name": "LetsRead",
+  "version": "1.0.0",
+  "description": "Data scraping application to pull news articles from Bloomberg and comment on the articles.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Justheretobuildstuff/LetsRead.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Justheretobuildstuff/LetsRead/issues"
+  },
+  "homepage": "https://github.com/Justheretobuildstuff/LetsRead#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.3",
+    "fs": "0.0.1-security",
+    "mongoose": "^5.2.14",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7",
+    "request": "^2.88.0"
+  }
+}
