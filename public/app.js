@@ -1,21 +1,50 @@
+// Getting json articles
+$.getJSON("/articles", function (data) {
+    for (var i = 0; i < data.length; i++) {
+        $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p");
+    }
+});
 
-var port = 8080;
+// On p tag click
+$(document).on("click", "p", function () {
+    $("#notes").empty();
+    var thisId = $(this).attr("data-id");
+    // Creating ajax call
+    $.ajax({
+        method: "GET",
+        url: "/articles/" + thisId
+    })
+        // add note info to page
+        .then(function (data) {
+            console.log(data);
+            $("#notes").append("<h3>" + data.title + "</h3>");
+            $("#notes").append("<input id='titleinput' name='title' >");
+            $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
+            $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
 
-var url = "https://www.bloomberg.com/news/articles/2018-09-05/asia-stocks-face-losses-as-em-pressure-lingers-markets-wrap?srnd=premium"
+            if (data.note) {
+                $("#titleinput").val(data.note.title);
+                $("#bodyinput").val(data.note.body);
+            }
+        });
+});
 
-request(url, function(err, res, body) {
-    var $ = cheerio.load(body);
+// On savenote button click
+$(document).on("click", "#savenote", function() {
+    var thisId = $(this).attr("data-id");
 
-    $('.')
-})
-
-// If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
-
-// Set mongoose to leverage built in JavaScript ES6 Promises
-// Connect to the Mongo DB
-mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI);
-
-app.listen(port);
-console.log('server running on' + port);
+    $.ajax({
+        method: "POST",
+        url: "/articles/" + thisId,
+        data: {
+            title: $("#titleinput").val(),
+            body: $("#bodyinput").val()
+        }
+    })
+    .then(function(data) {
+        console.log(data);
+        $("#notes").empty();
+    });
+    $("#titleinput").val("");
+    $("#bodyinput").val("");
+});
