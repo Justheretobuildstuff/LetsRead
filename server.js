@@ -33,7 +33,7 @@ app.get("/scrape", function (req, res) {
   axios.get("https://www.bloomberg.com/").then(function (response) {
     var $ = cheerio.load(response.data);
 
-    $("main h3").each(function (i, element) {
+    $("html").each(function (i, element) {
       var result = {};
       // Adding text and link to result object
       result.title = $(this)
