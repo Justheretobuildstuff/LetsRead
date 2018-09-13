@@ -1,11 +1,4 @@
-var express = require('express');
-var path = require('path');
-var request = require('request');
-var cheerio = require('cheerio');
-var fs = require('fs');
-var express_handlebars = require('express-handlebars');
-var mongoose = require('mongoose');
-var body_parser = require('body-parser');
+
 var port = 8080;
 
 var url = "https://www.bloomberg.com/news/articles/2018-09-05/asia-stocks-face-losses-as-em-pressure-lingers-markets-wrap?srnd=premium"
