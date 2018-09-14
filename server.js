@@ -28,29 +28,33 @@ mongoose.connect("mongodb://localhost/8080");
 
 // Routes
 
-// Creating GET route for scraping the echoJS site
+// Creating GET route for scraping the bloomberg site
 app.get("/scrape", function (req, res) {
-  axios.get("https://www.bloomberg.com/").then(function (response) {
+  axios.get("http://www.echojs.com/")
+  .then(function (response) {
     var $ = cheerio.load(response.data);
-
-    $("html").each(function (i, element) {
+    $("article h2")
+    .each(function (i, element) {
+      console.log(i);
       var result = {};
       // Adding text and link to result object
-      result.title = $(this)
-        .children("a")
-        .text();
-      result.link = $(this)
-        .children("a")
-        .attr("href");
-      // Creating new Article with result data
+      result.title = $(this).children("a").text();
+      result.link = $(this).children("a").attr("href");
+      // // Creating new Article with result data
       db.Article.create(result)
-        .then(function (dbArticle) {
-          console.log(dbArticle);
-        })
-        .catch(function (err) {
-          return res.json(err);
-        });
-    });
+      .then(function (dbArticle) {
+        console.log(dbArticle);
+        console.log('testing');
+        res.send("CREATED SOME DATA!")
+      })
+      .catch(function (err) {
+        return res.json(err);
+      });
+    })
+    .catch((err)=>{
+      console.log(err);
+      res.send("Caught an error in the for each loop!");
+    })
     // Returning indication that the scrape was successful to the client
     res.send("Hey, that scrape worked!")
   });
